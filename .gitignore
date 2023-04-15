@@ -1,0 +1,6 @@
+node_modules/
+dist/
+data/
+.idea/
+test/
+src/config/local.ts
