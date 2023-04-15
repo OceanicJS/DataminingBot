@@ -1,10 +1,20 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import LocalConfiguration from "./local.js";
 import { EnvOverride } from "@uwu-codes/utils";
 import { access, readFile } from "node:fs/promises";
 
+interface JSONConfig {
+    token: string;
+    webhook: {
+        id: string;
+        token: string;
+    };
+    githubToken: string;
+}
+
+const json = JSON.parse(await readFile(new URL("../../config.json", import.meta.url), "utf8")) as JSONConfig;
+
 const isDocker = await access("/.dockerenv").then(() => true, () => false) || await readFile("/proc/1/cgroup", "utf8").then(contents => contents.includes("docker"));
-class Configuration extends LocalConfiguration {
+class Configuration {
     static get isDevelopment() {
         return process.env.NODE_ENV !== "production";
     }
@@ -17,25 +27,16 @@ class Configuration extends LocalConfiguration {
         return isDocker ? "/data" : new URL("../../data", import.meta.url).pathname;
     }
 
-    static get postgresHost() {
-        return this.isDocker ? "postgres" : "172.19.1.43";
+    static get token() {
+        return json.token;
     }
 
-    static get postgresPort() {
-        return 5432;
+    static get webhook() {
+        return json.webhook;
     }
 
-    static get postgresUser() {
-        return "yiffyapi";
-    }
-
-    static get postgresPassword() {
-        // eslint-disable-next-line unicorn/no-useless-undefined
-        return undefined; // none
-    }
-
-    static get postgresDatabase() {
-        return "yiffyapi";
+    static get githubToken() {
+        return json.githubToken;
     }
 }
 

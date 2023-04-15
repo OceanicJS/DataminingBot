@@ -1,0 +1,8 @@
+{
+  "token": "Bot [TOKEN]",
+  "webhook": {
+    "id": "",
+    "token": ""
+  },
+  "githubToken": ""
+}

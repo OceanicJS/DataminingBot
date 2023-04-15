@@ -3,4 +3,4 @@ dist/
 data/
 .idea/
 test/
-src/config/local.ts
+config.json
