@@ -3,4 +3,4 @@ dist/
 data/
 .idea/
 test/
-config.json
+config.json*
