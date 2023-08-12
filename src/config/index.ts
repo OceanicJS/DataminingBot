@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { EnvOverride } from "@uwu-codes/utils";
+import { parse } from "jsonc-parser";
 import { access, readFile } from "node:fs/promises";
 
 interface JSONConfig {
@@ -11,12 +12,12 @@ interface JSONConfig {
     githubToken: string;
 }
 
-const json = JSON.parse(await readFile(new URL("../../config.json", import.meta.url), "utf8")) as JSONConfig;
+const json = parse(await readFile(new URL("../../config.jsonc", import.meta.url), "utf8")) as JSONConfig;
 
 const isDocker = await access("/.dockerenv").then(() => true, () => false) || await readFile("/proc/1/cgroup", "utf8").then(contents => contents.includes("docker"));
 class Configuration {
     static get isDevelopment() {
-        return process.env.NODE_ENV !== "production";
+        return !isDocker;
     }
 
     static get isDocker() {
