@@ -1,0 +1,1 @@
+This bot posts updates from https://github.com/Discord-Datamining/Discord-Datamining to a specified webhook. To set it up, set the values in the config, then build the container with docker, then run that container. Congrats, you're done.
